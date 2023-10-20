@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 import Home from "./home.js";
@@ -10,10 +10,25 @@ import portrait from "./img/user.png";
 const App = () => {
     const [open, setOpen] = useState(false);
 
+    let menuRef = useRef();
+
+    useEffect(() => {
+        let handler= (e) => {
+            if(!menuRef.current.contains(e.target)){
+                setOpen(false);
+            }
+        };
+        document.addEventListener("mousedown",handler);
+
+        return() => {
+            document.removeEventListener("mousedown",handler);
+        }
+    });
+
     return (
         <Router>
             <div className="App">
-                <div className="menu-container">
+                <div className="menu-container" ref={menuRef}>
                     <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
                         <img src={portrait}></img>
                     </div>
