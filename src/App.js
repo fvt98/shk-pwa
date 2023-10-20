@@ -33,7 +33,7 @@ const App = () => {
                         <img src={portrait}></img>
                     </div>
 
-                    <div className={`dropdown-menu ${open? 'active' : 'inactive'}`}>
+                    <div className={`dropdown-menu  ${open? 'active' : 'inactive'}` } onClick={()=>{setOpen(false)}}>
                         <h3>TestName<br /><span>Website-Test</span></h3>
                         <ul>
                             <li className="dropdownItem">
