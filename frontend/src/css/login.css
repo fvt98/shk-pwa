@@ -12,6 +12,10 @@ form {
     border: 1px solid #ccc;
     box-sizing: border-box;
   }
+
+  span{
+    color: #f44336;
+  }
   
   /* Set a style for all buttons */
   button {
@@ -56,18 +60,19 @@ form {
   
   /* Add padding to containers */
   .container {
+    background-color: antiquewhite;
     padding: 16px;
   }
   
   /* The "Forgot password" text */
-  span.psw {
+  span.password {
     float: right;
     padding-top: 16px;
   }
   
   /* Change styles for span and cancel button on extra small screens */
   @media screen and (max-width: 300px) {
-    span.psw {
+    span.password {
       display: block;
       float: none;
     }
