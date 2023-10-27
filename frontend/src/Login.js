@@ -41,9 +41,9 @@ const Login = () => {
                 <button type='submit'>Login</button>
             </div>
 
-            <div class="container" style={containerStyle}>
-                <button type="button" class="cancelbtn">Cancel</button>
-                <Link to="/signup" class="registerbtn">Create Account</Link>
+            <div className="container" style={containerStyle}>
+                <button type="button" className="cancelbtn">Cancel</button>
+                <Link to="/signup" className="registerbtn">Create Account</Link>
             </div>
         </form>
     );

@@ -1,31 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./css/login.css"
-import {Link} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Validation from './SignupValidation';
+import axios from 'axios';
 
 const containerStyle = {
     backgroundColor: '#f1f1f1'
 };
 
 const Signup = () => {
+    const [values, setValues] = useState({
+        name: '',
+        username: '',
+        password: ''
+    });
+
+    const navigate = useNavigate();
+
+    const [errors, setErrors] = useState({})
+
+    const handleInput = (event) => {
+        const {name, value} = event.target;
+        setValues({...values, [name]: value})
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        setErrors(Validation(values));
+        axios.post('http://localhost:8081/signup', values)
+            .then(res => {
+                navigate('/login');
+            })
+            .catch(err => console.log(err));
+
+    }
+
     return (
-        <form action=''>
+        <form action='' onSubmit={handleSubmit}>
             <div className='container'>
                 <h2>Sign up</h2>
                 <label htmlFor='name'>Name</label>
-                <input type='text' placeholder='Enter Name' name='name' required />
-                
+                <input type='text' placeholder='Enter Name'
+                    onChange={handleInput} name='name' required />
+
                 <label htmlFor='username'>Username</label>
-                <input type='text' placeholder='Enter Username' name='username' required />
+                <input type='text' placeholder='Enter Username'
+                    onChange={handleInput} name='username' required />
 
                 <label htmlFor='password'>Password</label>
-                <input type='password' placeholder='Enter Password' name='password' required />
+                <input type='password' placeholder='Enter Password'
+                    onChange={handleInput} name='password' required />
 
                 <button type='submit'>Sign up</button>
             </div>
 
-            <div class="container" style={containerStyle}>
-                <button type="button" class="cancelbtn">Cancel</button>
-                <Link to="/login" class="registerbtn">Login</Link>
+            <div className="container" style={containerStyle}>
+                <button type="button" className="cancelbtn">Cancel</button>
+                <Link to="/login" className="registerbtn">Login</Link>
             </div>
         </form>
     );
