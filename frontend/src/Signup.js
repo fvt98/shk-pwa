@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import "./css/login.css"
 import { Link, useNavigate } from 'react-router-dom';
-import Validation from './SignupValidation';
 import axios from 'axios';
 
 const containerStyle = {
@@ -17,8 +16,6 @@ const Signup = () => {
 
     const navigate = useNavigate();
 
-    const [errors, setErrors] = useState({})
-
     const handleInput = (event) => {
         const {name, value} = event.target;
         setValues({...values, [name]: value})
@@ -26,7 +23,6 @@ const Signup = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
         axios.post('http://localhost:8081/signup', values)
             .then(res => {
                 navigate('/login');

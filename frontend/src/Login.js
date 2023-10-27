@@ -1,7 +1,6 @@
 import React,{ useState} from 'react'
 import "./css/login.css"
 import {Link} from 'react-router-dom';
-import Validation from './LoginValidation';
 
 const containerStyle = {
     backgroundColor: '#f1f1f1'
@@ -13,15 +12,13 @@ const Login = () => {
         password: ''
     });
 
-    const [errors, setErrors] = useState({})
-
     const handleInput = (event) => {
-        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+        const {name, value} = event.target;
+        setValues({...values, [name]: value})
     }
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        setErrors(Validation(values));
     }
 
     return (
@@ -31,12 +28,10 @@ const Login = () => {
                 <label htmlFor='username'>Username</label>
                 <input type='text' placeholder='Enter Username'
                 onChange={handleInput} name='username' required />
-                <span>{errors.username}</span>
 
                 <label htmlFor='password'>Password</label>
                 <input type='password' placeholder='Enter Password'
                 onChange={handleInput} name='password' required />
-                <span>{errors.password}</span>
 
                 <button type='submit'>Login</button>
             </div>
