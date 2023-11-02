@@ -25,7 +25,7 @@ const Login = () => {
         event.preventDefault();
         axios.post('http://localhost:8081/login', values)
         .then(res => {
-            if(res.data.Status === "Succes") {
+            if(res.data.Status === "Success") {
                 navigate('/');
             } else {
                 alert(res.data.Message);

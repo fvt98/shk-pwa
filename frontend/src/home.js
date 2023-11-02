@@ -1,12 +1,11 @@
 import axios from "axios";
 import React, {useEffect, useState} from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
     const [auth, setAuth] = useState(false);
     const [name, setName] = useState('');
-    const [message, setMEssage] = useState('');
-    const navigate = useNavigate();
+    const [message, setMessage] = useState('');
 
     axios.defaults.withCredentials = true;
 
@@ -18,7 +17,7 @@ const Home = () => {
                 setName(res.data.name);
             } else {
                 setAuth(false);
-                setMEssage(res.data.Message);
+                setMessage(res.data.Message);
             }
         })
     }, []);
@@ -27,7 +26,7 @@ const Home = () => {
         axios.get('http://localhost:8081/logout')
         .then(res => {
             if(res.data.Status === "Success"){
-                navigate('/');
+                window.location.reload(true);
             } else {
                 alert("error");
             }
