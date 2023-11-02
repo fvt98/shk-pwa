@@ -1,6 +1,7 @@
 import React,{ useState} from 'react'
 import "./css/login.css"
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const containerStyle = {
     backgroundColor: '#f1f1f1'
@@ -12,13 +13,25 @@ const Login = () => {
         password: ''
     });
 
+    const navigate = useNavigate();
+
     const handleInput = (event) => {
         const {name, value} = event.target;
         setValues({...values, [name]: value})
     }
 
+    axios.defaults.withCredentials = true;
     const handleSubmit = (event) => {
         event.preventDefault();
+        axios.post('http://localhost:8081/login', values)
+        .then(res => {
+            if(res.data.Status === "Succes") {
+                navigate('/');
+            } else {
+                alert(res.data.Message);
+            }
+        })
+        .catch(err => console.log(err));
     }
 
     return (
