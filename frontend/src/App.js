@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef} from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import axios from "axios";
 
 import Home from "./home.js";
 import About from './testsite.js';
@@ -11,12 +12,13 @@ import portrait from "./img/user.png";
 
 const App = () => {
     const [open, setOpen] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     let menuRef = useRef();
 
     useEffect(() => {
         let handler= (e) => {
-            if(!menuRef.current.contains(e.target)){
+            if(menuRef.current && !menuRef.current.contains(e.target)){
                 setOpen(false);
             }
         };
@@ -25,11 +27,28 @@ const App = () => {
         return() => {
             document.removeEventListener("mousedown",handler);
         }
-    });
+    }, []);
+
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const res = await axios.get('http://localhost:8081/');
+                if(res.data.Status === "Success") {
+                    setIsLoggedIn(true);
+                } else {
+                    setIsLoggedIn(false);
+                }
+            } catch (error) {
+                setIsLoggedIn(false);
+            }
+        };
+        checkAuth();
+    }, []);
 
     return (
         <Router>
             <div className="App">
+                {isLoggedIn && (
                 <div className="menu-container" ref={menuRef}>
                     <div className="menu-trigger" onClick={()=>{setOpen(!open)}}>
                         <img alt={""} src={portrait}></img>
@@ -39,7 +58,7 @@ const App = () => {
                         <h3>TestName<br /><span>Website-Test</span></h3>
                         <ul>
                             <li className="dropdownItem">
-                                <Link to="/">Home</Link>
+                                <Link to="/home">Home</Link>
                             </li>
                             <li className="dropdownItem">
                                 <Link to="/weatherApp">Weather App</Link>
@@ -53,9 +72,10 @@ const App = () => {
                         </ul>
                     </div>
                 </div>
-                
+                )}
                 <Routes>
-                    <Route path="/" exact element={<Home />} />
+                    {!isLoggedIn && <Route path="/" exact element={<Home />} />}
+                    
                     <Route path="/home" exact element={<Home />} />
 
                     <Route path="/weatherApp" exact element={<WeatherApp />} />
