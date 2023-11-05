@@ -8,24 +8,32 @@ const containerStyle = {
 };
 
 const Signup = () => {
-    const [values, setValues] = useState({
+    const [values, setValues] = useState({ 
         name: '',
         username: '',
         password: ''
-    });
+    }); //Variablen die beim Registrieren eingegeben/gespeichert werden können
 
-    const navigate = useNavigate();
+    const navigate = useNavigate(); //Variable zum weiterleiten auf andere Routen
 
+    /**
+     * Funktion die aufgerufen wird wenn etwas ins Formular eingegeben wird
+     * -> speichern der eingegeben Werte in die vorgesehenen Variablen
+     */
     const handleInput = (event) => {
         const {name, value} = event.target;
         setValues({...values, [name]: value})
     }
 
+    /**
+     * Bei Button-Klick für Registrieren wird Funktion aufgerufen um Daten an DB-Server zu übermitteln
+     * -> über axios.post
+     */
     const handleSubmit = (event) => {
         event.preventDefault();
         axios.post('http://localhost:8081/signup', values)
             .then(res => {
-                navigate('/login');
+                navigate('/login'); //wenn Daten erfolgreich übermittelt -> weiterleiten an login-Seite
             })
             .catch(err => console.log(err));
 

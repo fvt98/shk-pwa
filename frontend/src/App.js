@@ -11,11 +11,14 @@ import Signup from "./Signup.js";
 import portrait from "./img/user.png";
 
 const App = () => {
-    const [open, setOpen] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [open, setOpen] = useState(false); //Variablen ob Navbar offen/geschlossen ist
+    const [isLoggedIn, setIsLoggedIn] = useState(false); //Variablen ob User eingeloggt ist
 
-    let menuRef = useRef();
+    let menuRef = useRef(); 
 
+    /**
+     * Setzen das Navbar geschlossen wird wenn man außerhalb der Navbar klickt
+     */
     useEffect(() => {
         let handler = (e) => {
             if (menuRef.current && !menuRef.current.contains(e.target)) {
@@ -29,6 +32,10 @@ const App = () => {
         }
     }, [menuRef]);
 
+    /**
+     * Überprüfen ob User aktuell eingeloggt oder ausgeloggt ist
+     * -> entsprechend setzten der isLoggedIn Variable
+     */
     useEffect(() => {
         const checkAuth = async () => {
             try {

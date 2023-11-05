@@ -3,12 +3,16 @@ import React, {useEffect, useState} from "react";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-    const [auth, setAuth] = useState(false);
-    const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
+    const [auth, setAuth] = useState(false); //Variable ob eingeloggt
+    const [name, setName] = useState(''); //Variable vom Name(User)
+    const [message, setMessage] = useState(''); //Variable für Message
 
     axios.defaults.withCredentials = true;
 
+    /**
+     * Überprüfen ob User aktuell eingeloggt ist
+     * -> entsprechend setzen der auth Variable
+     */
     useEffect(() => {
         axios.get('http://localhost:8081')
         .then(res => {
@@ -22,6 +26,11 @@ const Home = () => {
         })
     }, []);
 
+    /**
+     * Wenn logout button genutzt wird wird Anfrage an Backend geschickt 
+     * -> Hanling vom Logout im Backend
+     * -> anschlißend Seite neuladen um Änderungen zu übernehemn bei Erfolg
+     */
     const handleLogout = () => {
         axios.get('http://localhost:8081/logout')
         .then(res => {
